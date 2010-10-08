@@ -2,6 +2,9 @@ module Diaspora
   module UserModules
     module Receiving
       def receive_salmon salmon_xml
+        Rails.logger.info("salmon_xml: #{salmon_xml}")
+        Rails.logger.info("base64decode salmon_xml: #{Base64.decode64 salmon_xml}")
+
         salmon = Salmon::SalmonSlap.parse salmon_xml, self
         if salmon.verified_for_key?(salmon.author.public_key)
           Rails.logger.info("data in salmon: #{salmon.parsed_data}")
